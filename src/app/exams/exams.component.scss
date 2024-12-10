@@ -1,0 +1,13 @@
+.item-exam {
+    min-height: 5rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    border: 1px solid #cdcdcd !important;
+}
+
+.container-exams , .container-exams .card {
+    background-color: #fafffa;
+}

@@ -1,0 +1,78 @@
+<div class="container mt-4 container-exams">
+    <!-- Tableau d'affichage des examens -->
+    <div class="card border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <div class="left">
+                    <h2>Mes examens</h2>
+                    <p class="card-text">{{totalExams}} examens à venir</p>
+                </div>
+                <div class="right">
+                    <!-- Bouton pour afficher le formulaire -->
+                    <button class="btn btn-danger mb-3 float-end" (click)="toggleForm()">Organiser un examen</button>
+                </div>
+            </div>
+            <!-- Formulaire d'ajout d'un examen -->
+            <div *ngIf="showForm" class="card p-4 mb-4">
+                <form [formGroup]="examForm" (ngSubmit)="addExam()">
+                    <div class="mb-3">
+                        <label for="studentName" class="form-label">Nom de l'étudiant</label>
+                        <input formControlName="studentName" id="studentName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Lieu de l'examen</label>
+                        <input formControlName="location" id="location" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" formControlName="date" id="date" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="time" class="form-label">Heure</label>
+                        <input type="time" formControlName="time" id="time" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Statut</label>
+                        <select formControlName="status" id="status" class="form-select" required>
+                            <option value="Confirmé">Confirmé</option>
+                            <option value="À organiser">À organiser</option>
+                            <option value="Annulé">Annulé</option>
+                            <option value="En recherche de place">En recherche de place</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success" [disabled]="examForm.invalid">Ajouter</button>
+                </form>
+            </div>
+            <div class="container text-center">
+                <div class="row border m-3 item-exam"  *ngFor="let exam of exams">
+                    <div class="col d-flex ms-3"><i class="fas fa-user me-2"></i> {{ exam.studentName }}</div>
+                    <div class="col d-flex ms-3"><i class="fa-solid fa-location-dot me-2"></i> {{ exam.location || '-' }}</div>
+                    <div class="col d-flex ms-3">
+                        <i class="fa-solid fa-calendar me-2"></i> {{ exam.date | date: 'd MMMM'}}
+                    </div>
+                    <div class="col d-flex ms-3">
+                        <i class="fa-regular fa-clock me-2"></i> {{ exam.time | date: 'HH\'h\'' }}
+                    </div>
+                    <div class="col d-flex ms-3">
+                        <span class="badge rounded-pill" [ngClass]="{
+                          'bg-success': exam.status === 'Confirmé',
+                          'bg-warning': exam.status === 'À organiser',
+                          'bg-danger': exam.status === 'Annulé',
+                          'bg-info': exam.status === 'En recherche de place'
+                        }">
+                        
+                            <i [ngClass]="{
+                              'fa-solid fa-check': exam.status === 'Confirmé',
+                              'fas fa-exclamation-circle': exam.status === 'À organiser',
+                              'fas fa-times-circle': exam.status === 'Annulé',
+                              'fas fa-search': exam.status === 'En recherche de place'
+                            }"></i>
+                            {{ exam.status }}
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
